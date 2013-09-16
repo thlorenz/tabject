@@ -5,18 +5,21 @@ var go = module.exports = function (obj, opts) {
   opts = opts || {};
   var maxValueLength = Math.min(opts.maxValueLength, Infinity)
     , maxKeyLength = Math.min(opts.maxKeyLength, Infinity)
-    , exclude = opts.exclude || [ 'function' ];
+    , excludeTypes = opts.excludeTypes || [ 'function' ]
+    , excludeKeys = opts.excludeKeys || [];
 
   var rows = Object.keys(obj).reduce(reducer, []);
 
   function reducer (acc, k) {
+    if (~excludeKeys.indexOf(k)) return acc;
+
     var val = obj[k];
     var valType = typeof val;
-    if (~exclude.indexOf(valType)) return acc;
+    if (~excludeTypes.indexOf(valType)) return acc;
 
     var s;
 
-         if (valType === 'function') s = 'function';
+         if (valType === 'function') s = '[function]';
     else if (valType === 'undefined') s = 'undefined';
     else if (val === null) s = 'null';
     else {

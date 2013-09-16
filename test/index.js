@@ -68,7 +68,62 @@ test('\ntext-table package with max key and value length', function (t) {
 })
 
 
-test('\nprocess - to prove that it doen\'t choke on circular data structures', function (t) {
-  
+test('\ndoesn\'t choke on circular data structures', function (t) {
+  var obj = { 
+    foo: { 
+      bar: { prim: 1 } 
+    },
+    shoe: 'sock'
+  }
+  obj.foo.bar.obj = obj;
+
+  var res = tabject(obj);
+  t.equal(res, [
+        'foo   [object Object]'
+      , 'shoe  "sock"'
+      ].join('\n')
+    , 'falls back to toString since JSON.stringify fails'
+  )
+  t.end()
+})
+
+test('\nfunctions are excluded by default', function (t) {
+  var obj = { foo: 'bar', fn: function () { } };
+  var res = tabject(obj)
+  t.equal(res, 'foo  "bar"');
+  t.end()
+})
+
+test('\nfunctions are included when excludeTypes is set to empty', function (t) {
+  var obj = { foo: 'bar', fn: function () { } };
+  var res = tabject(obj, { excludeTypes: []  })
+  t.equal(res, [
+      'foo  "bar"'
+    , 'fn   [function]'
+  ].join('\n'))
+  t.end()
+})
+
+test('\nstrings are excluded when excludeTypes is set to [ string ]', function (t) {
+  var obj = { foo: 'bar', fn: function () { } };
+  var res = tabject(obj, { excludeTypes: [ 'string' ]  })
+  t.equal(res, 'fn  [function]')
+  t.end()
+})
+
+test('\nby default all keys are included', function (t) {
+  var obj = { key1: 1, key2: 2 }
+  var res = tabject(obj)
+  t.equal(res, [
+      'key1  1'
+    , 'key2  2'
+  ].join('\n'))
+  t.end()
+})
+
+test('\nkey1 is excluded when I excludeKeys is set to [ key1 ]', function (t) {
+  var obj = { key1: 1, key2: 2 }
+  var res = tabject(obj, { excludeKeys: [ 'key1' ] })
+  t.equal(res, 'key2  2')
   t.end()
 })
