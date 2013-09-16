@@ -1,4 +1,6 @@
-# tabject
+# tabject [![build status](https://secure.travis-ci.org/thlorenz/tabject.png)](http://travis-ci.org/thlorenz/tabject)
+
+[![testling badge](https://ci.testling.com/thlorenz/tabject.png)](https://ci.testling.com/thlorenz/tabject)
 
 Creates a text table from a given object.
 
