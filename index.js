@@ -13,6 +13,7 @@ var table = require('text-table');
  *  - excludeKeys: {Array[String]} excludes given keys from the tabularized string
  *  - excludeTypes: {Array[String]} excludes key and values from the tabularized string if the value is of any of the 
  *    given types (default ['function']
+ *  - table: {Object} options passed through to text-table to configure alignment and horizontal separator
  */
 var go = module.exports = function (obj, opts) {
   opts = opts || {};
@@ -49,7 +50,7 @@ var go = module.exports = function (obj, opts) {
     return acc;
   }
 
-  return table(rows, {}); 
+  return table(rows, opts.table); 
 };
 
 // Test

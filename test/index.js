@@ -67,6 +67,28 @@ test('\ntext-table package with max key and value length', function (t) {
   t.end()
 })
 
+function inspect(obj, depth) {
+  console.error(require('util').inspect(obj, false, depth || 5, true));
+}
+test('\ntext-table package passing table opts', function (t) {
+  var res = tabject(textTablePackage, { maxValueLength: 50, table: { hsep: '|', align: [ 'c', 'r' ] } })  
+  t.equal(res, [
+    '      name     |                                      "text-table"',
+    '    version    |                                           "0.1.1"',
+    '  description  |           "borderless text tables with alignment"',
+    '      main     |                                        "index.js"',
+    'devDependencies|                  {"tap":"~0.4.0","tape":"~1.0.2"}',
+    '    scripts    |                          {"test":"tap test/*.js"}',
+    '    testling   |{"files":"test/*.js","browsers":["ie/6..latest"...',
+    '   repository  |{"type":"git","url":"git://github.com/substack/...',
+    '    homepage   |          "https://github.com/substack/text-table"',
+    '    keywords   | ["text","table","align","ascii","rows","tabular"]',
+    '     author    |{"name":"James Halliday","email":"mail@substack...',
+    '    license    |                                             "MIT"'
+    ].join('\n')
+  )
+  t.end()
+})
 
 test('\ndoesn\'t choke on circular data structures', function (t) {
   var obj = { 
