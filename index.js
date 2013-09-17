@@ -4,7 +4,7 @@ var table = require('text-table');
 /**
  * Returns a string that represents the object in a tabular manner.
  * 
- * @name exports
+ * @name tabject
  * @function
  * @param obj {Object} any JavaScript object
  * @param opts {Object} with the following properties:
@@ -14,8 +14,9 @@ var table = require('text-table');
  *  - excludeTypes: {Array[String]} excludes key and values from the tabularized string if the value is of any of the 
  *    given types (default ['function']
  *  - table: {Object} options passed through to text-table to configure alignment and horizontal separator
+ *  @return {String} tabularized object string
  */
-var go = module.exports = function (obj, opts) {
+var tabject = module.exports = function (obj, opts) {
   opts = opts || {};
   var maxValueLength = Math.min(opts.maxValueLength, Infinity)
     , maxKeyLength = Math.min(opts.maxKeyLength, Infinity)
@@ -52,14 +53,3 @@ var go = module.exports = function (obj, opts) {
 
   return table(rows, opts.table); 
 };
-
-// Test
-if (!module.parent) {
-  var obj = {
-    foo: 'bar',
-    len : 1,
-    obj: { prop1: 'hello', prop2: 'world' }
-  };
-  var pack = require('../package');
-  console.log(go(pack, { maxValueLength: 100 }))
-}

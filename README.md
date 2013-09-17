@@ -34,7 +34,26 @@ testling    {"files":"test/*.js","browsers":["ie/8..latest","firefox/..
 
 ## API
 
-###*tabject(obj, opts)*
+###*tabject(obj[, opts])*
+
+Returns a string that represents the object in a tabular manner.
+
+**params:**
+
+- obj *Object* any JavaScript object
+- opts *Object* with the following properties:
+  - maxKeyLength: {Number} limits the maximum number of chars for the object keys that are printed
+  - maxValueLength: {Number} limits the maximum number of chars for the object values that are printed
+  - excludeKeys: {Array[String]} excludes given keys from the tabularized string
+  - excludeTypes: {Array[String]} excludes key and values from the tabularized string if the value is of any of the
+    given types (default ['function']
+  - table: {Object} options passed through to [text-table](https://github.com/substack/text-table#var-s--tablerows-opts)
+    to configure alignment and horizontal separator
+
+**returns:**
+
+*String* tabularized object string
+
 
 ## License
 
