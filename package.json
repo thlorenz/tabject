@@ -1,6 +1,6 @@
 {
   "name": "tabject",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Creates a text table from a given object.",
   "main": "index.js",
   "scripts": {
@@ -23,7 +23,14 @@
     "tape": "~1.0.4",
     "tap": "~0.4.3"
   },
-  "keywords": [ "table", "format", "object", "render", "align", "tabular" ],
+  "keywords": [
+    "table",
+    "format",
+    "object",
+    "render",
+    "align",
+    "tabular"
+  ],
   "author": {
     "name": "Thorsten Lorenz",
     "email": "thlorenz@gmx.de",
