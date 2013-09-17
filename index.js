@@ -1,6 +1,19 @@
 'use strict';
 var table = require('text-table');
 
+/**
+ * Returns a string that represents the object in a tabular manner.
+ * 
+ * @name exports
+ * @function
+ * @param obj {Object} any JavaScript object
+ * @param opts {Object} with the following properties:
+ *  - maxKeyLength: {Number} limits the maximum number of chars for the object keys that are printed
+ *  - maxValueLength: {Number} limits the maximum number of chars for the object values that are printed
+ *  - excludeKeys: {Array[String]} excludes given keys from the tabularized string
+ *  - excludeTypes: {Array[String]} excludes key and values from the tabularized string if the value is of any of the 
+ *    given types (default ['function']
+ */
 var go = module.exports = function (obj, opts) {
   opts = opts || {};
   var maxValueLength = Math.min(opts.maxValueLength, Infinity)
