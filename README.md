@@ -46,7 +46,7 @@ Returns a string that represents the object in a tabular manner.
   - maxValueLength: {Number} limits the maximum number of chars for the object values that are printed
   - excludeKeys: {Array[String]} excludes given keys from the tabularized string
   - excludeTypes: {Array[String]} excludes key and values from the tabularized string if the value is of any of the
-    given types (default ['function']
+    given types (default ['function'])
   - table: {Object} options passed through to [text-table](https://github.com/substack/text-table#var-s--tablerows-opts)
     to configure alignment and horizontal separator
 
