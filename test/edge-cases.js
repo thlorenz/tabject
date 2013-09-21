@@ -16,9 +16,13 @@ function check(t, obj, expected, debug) {
 
 test('\nedge cases', function (t) {
   check(t ,  1                          ,  [ '1' ])
+  check(t ,  { foo: 1 }                 ,  [ 'foo  1' ])
   check(t ,  null                       ,  [ 'null' ])
+  check(t ,  { foo: null }              ,  [ 'foo  null' ])
   check(t ,  undefined                  ,  [ 'undefined' ])
+  check(t ,  { foo: undefined }         ,  [ 'foo  undefined' ])
   check(t ,  'foo'                      ,  [ 'foo' ])
+  check(t ,  { foo: 'foo' }             ,  [ 'foo  "foo"' ])
   check(t ,  new Buffer('foo')          ,  [ 'Buffer: [foo]' ])
   check(t ,  { buf: new Buffer('foo') } ,  [ 'buf  Buffer: [foo]' ])
   t.end();
