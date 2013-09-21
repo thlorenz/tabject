@@ -9,7 +9,7 @@ function inspect(obj, depth) {
 }
 
 function check(t, obj, expected, debug) {
-  var res = tabject(obj)  
+  var res = tabject(obj, { tab: '..' })  
   if (debug) console.log(inspect(res.split('\n')))
   t.deepEqual(res.split('\n'), expected, 'tabject(' + inspect(obj) + ') => ' + expected)
 }
@@ -17,20 +17,24 @@ function check(t, obj, expected, debug) {
 test('\narray of primitives', function (t) {
   check(t
     , [ 1, 2, 3 ]
-    , [ '[ 0:	1'
-      , '  1:	2'
-      , '  2:	3'
-      , ']'
-      ]
+    , [ '[ 0:',
+          '..1',
+        '  1:',
+          '..2',
+        '  2:',
+          '..3',
+        ']' ]
   )
   
   check(t
     , [ '1', '2', '3' ]
-    , [ '[ 0:	1'
-      , '  1:	2'
-      , '  2:	3'
-      , ']'
-      ]
+    , [ '[ 0:',
+          '..1',
+        '  1:',
+          '..2',
+        '  2:',
+          '..3',
+        ']' ]
   )
 
   t.end()
@@ -39,20 +43,24 @@ test('\narray of primitives', function (t) {
 test('\nmixed types', function (t) {
   check(t
     , [ null, '2', undefined ]
-    , [ '[ 0:	null'
-      , '  1:	2'
-      , '  2:	undefined'
-      , ']'
-      ]
+    , [ '[ 0:',
+          '..null',
+        '  1:',
+          '..2',
+        '  2:',
+          '..undefined',
+          ']' ]
   )
 
   check(t
     , [ [], { foo: 'bar' }, undefined ]
-    , [ '[ 0:\t[ ]',
-        '  1:\tfoo  "bar"',
-        '  2:\tundefined',
-        ']' 
-      ]
+    , [ '[ 0:',
+        '..[]',
+        '  1:',
+        '..foo  "bar"',
+        '  2:',
+        '..undefined',
+        ']' ]
   )
   t.end()
 })
