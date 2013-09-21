@@ -2,7 +2,7 @@
 /*jshint asi: true */
 
 var test = require('tape')
-var textTablePackage = require('./fixtures/text-table-package')
+var textTablePackage = require('./fixtures/text-table-package.json')
 var tabject = require('../')
 
 test('\ntext-table package no max lengths', function (t) {

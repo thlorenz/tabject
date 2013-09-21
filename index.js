@@ -1,12 +1,13 @@
 'use strict';
 var table = require('text-table');
 
+
 /**
  * Returns a string that represents the object in a tabular manner.
  * 
  * @name tabject
  * @function
- * @param obj {Object} any JavaScript object
+ * @param obj {Array|Object} any JavaScript object or an Array
  * @param opts {Object} with the following properties:
  *  - maxKeyLength: {Number} limits the maximum number of chars for the object keys that are printed
  *  - maxValueLength: {Number} limits the maximum number of chars for the object values that are printed
@@ -16,12 +17,25 @@ var table = require('text-table');
  *  - table: {Object} options passed through to text-table to configure alignment and horizontal separator
  *  @return {String} tabularized object string
  */
-var tabject = module.exports = function (obj, opts) {
+var tabject = module.exports = function tabject (obj, opts) {
   opts = opts || {};
-  var maxValueLength = Math.min(opts.maxValueLength, Infinity)
-    , maxKeyLength = Math.min(opts.maxKeyLength, Infinity)
-    , excludeTypes = opts.excludeTypes || [ 'function' ]
-    , excludeKeys = opts.excludeKeys || [];
+
+  function arrayReducer(acc, o, idx) { 
+    // not worrying about stackoverflow right now although that could become an issue
+    return acc + '  ' + idx + ':\t' + tabject(o, opts).split('\n').join('\n\t') + '\n'; 
+  }
+
+  var maxValueLength =  Math.min(opts.maxValueLength, Infinity)
+    , maxKeyLength   =  Math.min(opts.maxKeyLength, Infinity)
+    , excludeTypes   =  opts.excludeTypes || [ 'function' ]
+    , excludeKeys    =  opts.excludeKeys || [];
+
+  if (Array.isArray(obj))         return '[ ' + obj.reduce(arrayReducer, '').slice(2) + ']';
+  if (obj === null)               return 'null';
+  if (obj === undefined)          return 'undefined';
+  if (typeof obj  === 'function') return '[function]';
+  if (Buffer.isBuffer(obj))       return 'Buffer: [' + obj.toString() + ']';
+  if (typeof obj !== 'object')    return obj.toString();
 
   var rows = Object.keys(obj).reduce(reducer, []);
 
@@ -34,9 +48,10 @@ var tabject = module.exports = function (obj, opts) {
 
     var s;
 
-         if (valType === 'function') s = '[function]';
+         if (valType === 'function')  s = '[function]';
+    else if (Buffer.isBuffer(val))    s = 'Buffer: [' + val.toString() + ']';
     else if (valType === 'undefined') s = 'undefined';
-    else if (val === null) s = 'null';
+    else if (val === null)            s = 'null';
     else {
       try {
         s = JSON.stringify(val);

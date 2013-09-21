@@ -40,7 +40,7 @@ Returns a string that represents the object in a tabular manner.
 
 **params:**
 
-- obj *Object* any JavaScript object
+- obj *Array|Object* any JavaScript Object or Array
 - opts *Object* with the following properties:
   - maxKeyLength: {Number} limits the maximum number of chars for the object keys that are printed
   - maxValueLength: {Number} limits the maximum number of chars for the object values that are printed
