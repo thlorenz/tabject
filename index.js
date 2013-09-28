@@ -1,6 +1,10 @@
 'use strict';
 var table = require('text-table');
 
+function noopWrap (keyOrVal, type) {
+  return keyOrVal;
+}
+
 /**
  * Returns a string that represents the object in a tabular manner.
  * 
@@ -12,6 +16,8 @@ var table = require('text-table');
  *  - maxValueLength: {Number} limits the maximum number of chars for the object values that are printed
  *  - excludeKeys: {Array[String]} excludes given keys from the tabularized string
  *  - excludeTypes: {Array[String]} excludes key and values from the tabularized string if the value is of any of the 
+ *  - wrapKey: {Function} invoked with with (key, valueType), return from it whatever you want to replace the key with
+ *  - wrapValue: {Function} invoked with with (value, valueType), return from it whatever you want to replace the value with
  *    given types (default ['function'])
  *  - tab: {String} used to indent array elements (default: `\t`)
  *  - table: {Object} options passed through to text-table to configure alignment and horizontal separator
@@ -19,6 +25,9 @@ var table = require('text-table');
  */
 var tabject = module.exports = function tabject (obj, opts) {
   opts = opts || {};
+
+  var wrapKey = opts.wrapKey || noopWrap  
+    , wrapValue = opts.wrapValue || noopWrap
 
   var maxValueLength =  Math.min(opts.maxValueLength, Infinity)
     , maxKeyLength   =  Math.min(opts.maxKeyLength, Infinity)
@@ -52,7 +61,10 @@ var tabject = module.exports = function tabject (obj, opts) {
     var s;
 
          if (valType === 'function')  s = '[function]';
-    else if (Buffer.isBuffer(val))    s = 'Buffer: [' + val.toString() + ']';
+    else if (Buffer.isBuffer(val)) { 
+            valType = 'buffer'; 
+            s = 'Buffer: [' + val.toString() + ']'; 
+         }
     else if (valType === 'undefined') s = 'undefined';
     else if (val === null)            s = 'null';
     else {
@@ -65,7 +77,7 @@ var tabject = module.exports = function tabject (obj, opts) {
 
     if (k.length > maxKeyLength) k = k.slice(0, maxKeyLength - 3) + '...';
     if (s.length > maxValueLength) s = s.slice(0, maxValueLength - 3) + '...';
-    acc.push([k, s]);  
+    acc.push([wrapKey(k, valType), wrapValue(s, valType)]);  
     return acc;
   }
 
