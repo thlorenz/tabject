@@ -47,6 +47,8 @@ Returns a string that represents the object in a tabular manner.
   - excludeKeys: {Array[String]} excludes given keys from the tabularized string
   - excludeTypes: {Array[String]} excludes key and values from the tabularized string if the value is of any of the
     given types (default ['function'])
+  - wrapKey: {Function} invoked with with (key, valueType), return from it whatever you want to replace the key with
+  - wrapValue: {Function} invoked with with (value, valueType), return from it whatever you want to replace the value with
   - tab: {String} used to indent array elements (default: `\t`)
   - table: {Object} options passed through to [text-table](https://github.com/substack/text-table#var-s--tablerows-opts)
     to configure alignment and horizontal separator
